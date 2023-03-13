@@ -13,12 +13,31 @@ const FormControl = ({ showAlert }) => {
   const [transactions, setTransactions] = useState(transactionsData);
   const [isEditing, setisEditing] = useState(false);
   const [editId, setEditId] = useState("");
-  const [selectedOption, setSelectedOption] = useState("opt1");
+  const [selectedOption, setSelectedOption] = useState("positive");
 
   // calling local storage whenever list changes
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
+
+  // radio button
+  function radioButton(amount) {
+    if (selectedOption === "positive") {
+      if (amount < 0) {
+        return (amount = amount * -1);
+      } else {
+        return (amount = amount * 1);
+      }
+    }
+
+    if (selectedOption === "negative") {
+      if (amount < 0) {
+        return (amount = amount * 1);
+      } else {
+        return (amount = amount * -1);
+      }
+    }
+  }
 
   // delete transaction
   const deleteTransaction = (id) => {
@@ -39,18 +58,19 @@ const FormControl = ({ showAlert }) => {
     setisEditing(true);
     setEditId(id);
     setTransactionName(itemToEdit.title);
-    setAmount(Number(itemToEdit.amount));
+    setAmount(itemToEdit.amount);
   };
 
   // radio button
   const handleRadio = (e) => {
     setSelectedOption(e.target.value);
-    console.log(e.target.value);
+    radioButton();
   };
 
   // form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!transactionName || !amount) {
       showAlert({
         show: true,
@@ -63,13 +83,12 @@ const FormControl = ({ showAlert }) => {
           return {
             ...transaction,
             title: transactionName,
-            amount: amount,
+            amount: radioButton(amount),
           };
         } else {
           return transaction;
         }
       });
-      console.log(transactions.amount);
       setTransactions(editList);
       showAlert({
         show: true,
@@ -84,7 +103,7 @@ const FormControl = ({ showAlert }) => {
       const newTransaction = {
         id: uuidv4(),
         title: transactionName,
-        amount: amount,
+        amount: radioButton(amount),
       };
       setTransactions([...transactions, newTransaction]);
       setTransactionName("");
@@ -124,8 +143,8 @@ const FormControl = ({ showAlert }) => {
               type="radio"
               id="income-radio"
               name="radio"
-              value="opt1"
-              checked={selectedOption === "opt1"}
+              value="positive"
+              checked={selectedOption === "positive"}
               onChange={handleRadio}
             />
             <label htmlFor="income-radio" className="income-radio">
@@ -137,8 +156,8 @@ const FormControl = ({ showAlert }) => {
               type="radio"
               id="expense-radio"
               name="radio"
-              value="opt2"
-              checked={selectedOption === "opt2"}
+              value="negative"
+              checked={selectedOption === "negative"}
               onChange={handleRadio}
             />
             <label htmlFor="expense-radio" className="expense-radio">
@@ -164,9 +183,10 @@ const FormControl = ({ showAlert }) => {
           type="number"
           id="amount-input"
           placeholder="Enter Amount (₹)"
+          autoComplete="off"
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
-          name="money"
+          name="amount"
           required
         />
         <button className="button" type="submit">

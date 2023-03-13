@@ -308,17 +308,19 @@ label {
   border-left: 7px solid #12bb4a;
   position: absolute;
   width: 85%;
-  top: -50%;
   opacity: 0;
+  top: 16rem;
   transition: all 0.5s ease-in;
   color: #03256c;
+  z-index: -99;
 }
 
 .alert-transaction {
   transition: all 0.5s ease;
   position: absolute;
-  top: 20.25rem;
+  top: 20.5rem;
   opacity: 1;
+  z-index: 99;
 }
 
 .fa-check {
@@ -441,7 +443,7 @@ input[type="number"] {
 
   .output-container {
     width: 95%;
-    margin: 0 auto;
+    margin: 0 auto 0.5rem;
   }
 
   .history-title {

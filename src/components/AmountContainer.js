@@ -12,7 +12,6 @@ const AmountContainer = ({ transactions }) => {
       .map((val) => val.amount)
       .filter((val) => val > 0)
       .reduce((preval, val) => preval + val, 0);
-    console.log(plusAmount);
     setIncome(plusAmount);
 
     // negative value
