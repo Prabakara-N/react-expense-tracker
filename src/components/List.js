@@ -2,25 +2,32 @@ import React from "react";
 import { MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 
-const List = () => {
+const List = ({ transactions, deleteTransaction, editTransaction }) => {
   return (
     <>
-      <div className="history-container">
-        <div className="history-title">
-          <h2>History</h2>
-        </div>
-        <ul className="lists" id="lists">
-          <li className="minus">
-            <span>Cash</span> <span> -500</span>
-            <button className="update-btn btn">
-              <AiFillEdit />
-            </button>
-            <button className="delete-btn btn">
-              <MdDelete />
-            </button>
-          </li>
+      {transactions.map((transaction) => {
+        const { id, title, amount } = transaction;
+        return (
+          <ul className="lists" key={id}>
+            <li className="minus">
+              <span>{title}</span> <span> {amount}</span>
+              <button
+                className="update-btn btn"
+                type="button"
+                onClick={() => editTransaction(id)}
+              >
+                <AiFillEdit />
+              </button>
+              <button
+                type="button"
+                className="delete-btn btn"
+                onClick={() => deleteTransaction(id)}
+              >
+                <MdDelete />
+              </button>
+            </li>
 
-          <li className="plus">
+            {/* <li className="plus">
             <span>Cash</span> <span> 1000</span>
             <button className="update-btn btn">
               <AiFillEdit />
@@ -28,9 +35,10 @@ const List = () => {
             <button className="delete-btn btn">
               <MdDelete />
             </button>
-          </li>
-        </ul>
-      </div>
+          </li> */}
+          </ul>
+        );
+      })}
     </>
   );
 };

@@ -1,29 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import List from "./List";
+import { v4 as uuidv4 } from "uuid";
 
-const FormControl = ({
-  balance,
-  setBalance,
-  income,
-  setIncome,
-  expense,
-  setExpense,
-}) => {
-  const [transaction, setTransaction] = useState("");
+let transactionsData = localStorage.getItem("transactions")
+  ? JSON.parse(localStorage.getItem("transactions"))
+  : [];
+
+const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
+  const [transactionName, setTransactionName] = useState("");
   const [amount, setAmount] = useState("");
+  const [transactions, setTransactions] = useState(transactionsData);
+  const [isEditing, setisEditing] = useState(false);
+  const [editId, setEditId] = useState("");
   const [selectedOption, setSelectedOption] = useState("opt1");
+
+  // calling local storage whenever list changes
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
+
+  // delete transaction
+  const deleteTransaction = (id) => {
+    const filteredItem = transactions.filter((item) => item.id !== id);
+    setTransactions(filteredItem);
+    showAlert({
+      show: true,
+      msg: "Transaction Deleted Successfully",
+      type: "transaction",
+    });
+  };
+
+  // edit transaction
+  const editTransaction = (id) => {
+    const itemToEdit = transactions.find(
+      (transaction) => transaction.id === id
+    );
+    setisEditing(true);
+    setEditId(id);
+    setTransactionName(itemToEdit.title);
+    setAmount(itemToEdit.amount);
+  };
 
   // radio button
   const handleRadio = (e) => {
     setSelectedOption(e.target.value);
+    console.log(e.target.value);
   };
 
   // form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!transactionName || !amount) {
+      showAlert({
+        show: true,
+        msg: "Please Enter A Transaction !",
+        type: "transaction",
+      });
+    } else if (transactionName && amount && isEditing) {
+      const editList = transactions.map((transaction) => {
+        if (transaction.id === editId) {
+          return { ...transaction, title: transactionName, amount: amount };
+        } else {
+          return transaction;
+        }
+      });
+      setTransactions(editList);
+      showAlert({
+        show: true,
+        msg: "Transaction Edited Successfully !",
+        type: "transaction",
+      });
+      setTransactionName("");
+      setAmount("");
+      setisEditing(false);
+      setEditId("");
+    } else {
+      const newTransaction = {
+        id: uuidv4(),
+        title: transactionName,
+        amount: amount,
+      };
+      setTransactions([...transactions, newTransaction]);
+      setTransactionName("");
+      setAmount("");
+      showAlert({
+        show: true,
+        msg: "Transaction Added Successfully !",
+        type: "transaction",
+      });
+    }
   };
 
   return (
     <>
+      {transactions.length > 0 && (
+        <div className="history-container">
+          <div className="history-title">
+            <h2>History</h2>
+          </div>
+          <List
+            transactions={transactions}
+            deleteTransaction={deleteTransaction}
+            editTransaction={editTransaction}
+          />
+        </div>
+      )}
+
       <h2 className="input-title">Add New Transaction</h2>
 
       <form className="input-container" onSubmit={handleSubmit}>
@@ -65,8 +147,8 @@ const FormControl = ({
           id="transaction"
           placeholder="Enter Transaction..."
           name="rents"
-          value={transaction}
-          onChange={(e) => setTransaction(e.target.value)}
+          value={transactionName}
+          onChange={(e) => setTransactionName(e.target.value)}
           autoComplete="off"
           required
         />
@@ -81,7 +163,7 @@ const FormControl = ({
           required
         />
         <button className="button" type="submit">
-          Add Transaction
+          {isEditing ? "Update Transaction" : "Add Transaction"}
         </button>
       </form>
     </>

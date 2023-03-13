@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import FormControl from "./FormControl";
-import List from "./List";
 
-const BalanceAmount = () => {
+const AmountContainer = ({ showAlert }) => {
   const [balance, setBalance] = useState("0.00");
   const [income, setIncome] = useState("0.00");
   const [expense, setExpense] = useState("0.00");
@@ -32,18 +31,15 @@ const BalanceAmount = () => {
           </h3>
         </div>
       </div>
-      <List />
 
       <FormControl
-        balance={balance}
         setBalance={setBalance}
-        income={income}
         setIncome={setIncome}
-        expense={expense}
         setExpense={setExpense}
+        showAlert={showAlert}
       />
     </>
   );
 };
 
-export default BalanceAmount;
+export default AmountContainer;
