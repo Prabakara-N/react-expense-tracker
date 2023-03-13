@@ -1,10 +1,32 @@
-import React, { useState } from "react";
-import FormControl from "./FormControl";
+import React, { useEffect, useState } from "react";
+// import FormControl from "./FormControl";
 
-const AmountContainer = ({ showAlert }) => {
+const AmountContainer = ({ transactions }) => {
   const [balance, setBalance] = useState("0.00");
   const [income, setIncome] = useState("0.00");
   const [expense, setExpense] = useState("0.00");
+
+  useEffect(() => {
+    // positive value
+    const plusAmount = transactions
+      .map((val) => val.amount)
+      .filter((val) => val > 0)
+      .reduce((preval, val) => preval + val, 0);
+    console.log(plusAmount);
+    setIncome(plusAmount);
+
+    // negative value
+    const minusAmount = transactions
+      .map((val) => val.amount)
+      .filter((val) => val < 0)
+      .reduce((preval, val) => preval + val, 0);
+    setExpense(minusAmount);
+
+    const totalAmt = transactions
+      .map((val) => val.amount)
+      .reduce((preval, val) => preval + val, 0);
+    setBalance(totalAmt);
+  }, [transactions]);
 
   return (
     <>
@@ -31,13 +53,6 @@ const AmountContainer = ({ showAlert }) => {
           </h3>
         </div>
       </div>
-
-      <FormControl
-        setBalance={setBalance}
-        setIncome={setIncome}
-        setExpense={setExpense}
-        showAlert={showAlert}
-      />
     </>
   );
 };

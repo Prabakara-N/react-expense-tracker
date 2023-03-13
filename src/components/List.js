@@ -7,9 +7,10 @@ const List = ({ transactions, deleteTransaction, editTransaction }) => {
     <>
       {transactions.map((transaction) => {
         const { id, title, amount } = transaction;
+
         return (
           <ul className="lists" key={id}>
-            <li className="minus">
+            <li className={amount > 0 ? "plus" : "minus"}>
               <span>{title}</span> <span> {amount}</span>
               <button
                 className="update-btn btn"
@@ -26,16 +27,6 @@ const List = ({ transactions, deleteTransaction, editTransaction }) => {
                 <MdDelete />
               </button>
             </li>
-
-            {/* <li className="plus">
-            <span>Cash</span> <span> 1000</span>
-            <button className="update-btn btn">
-              <AiFillEdit />
-            </button>
-            <button className="delete-btn btn">
-              <MdDelete />
-            </button>
-          </li> */}
           </ul>
         );
       })}

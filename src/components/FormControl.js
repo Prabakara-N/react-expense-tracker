@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import List from "./List";
+import AmountContainer from "./AmountContainer";
 import { v4 as uuidv4 } from "uuid";
 
 let transactionsData = localStorage.getItem("transactions")
   ? JSON.parse(localStorage.getItem("transactions"))
   : [];
 
-const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
+const FormControl = ({ showAlert }) => {
   const [transactionName, setTransactionName] = useState("");
   const [amount, setAmount] = useState("");
   const [transactions, setTransactions] = useState(transactionsData);
@@ -38,7 +39,7 @@ const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
     setisEditing(true);
     setEditId(id);
     setTransactionName(itemToEdit.title);
-    setAmount(itemToEdit.amount);
+    setAmount(Number(itemToEdit.amount));
   };
 
   // radio button
@@ -59,11 +60,16 @@ const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
     } else if (transactionName && amount && isEditing) {
       const editList = transactions.map((transaction) => {
         if (transaction.id === editId) {
-          return { ...transaction, title: transactionName, amount: amount };
+          return {
+            ...transaction,
+            title: transactionName,
+            amount: amount,
+          };
         } else {
           return transaction;
         }
       });
+      console.log(transactions.amount);
       setTransactions(editList);
       showAlert({
         show: true,
@@ -93,6 +99,7 @@ const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
 
   return (
     <>
+      <AmountContainer transactions={transactions} />
       {transactions.length > 0 && (
         <div className="history-container">
           <div className="history-title">
@@ -158,7 +165,7 @@ const FormControl = ({ setBalance, setIncome, setExpense, showAlert }) => {
           id="amount-input"
           placeholder="Enter Amount (₹)"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(Number(e.target.value))}
           name="money"
           required
         />
