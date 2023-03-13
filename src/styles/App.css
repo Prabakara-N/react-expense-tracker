@@ -97,7 +97,7 @@ body {
   align-items: center;
   justify-content: space-between;
   background-color: white;
-  padding: 1rem 16px 0;
+  padding: 1rem 20px 4px;
   margin-bottom: 2rem;
   box-shadow: 3px 3px 3px rgb(231, 231, 231), -3px -3px 3px rgb(231, 231, 231);
 }

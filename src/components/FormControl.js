@@ -92,7 +92,7 @@ const FormControl = ({ showAlert }) => {
       setTransactions(editList);
       showAlert({
         show: true,
-        msg: "Transaction Edited Successfully !",
+        msg: "Transaction Updated Successfully !",
         type: "transaction",
       });
       setTransactionName("");

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import FormControl from "./FormControl";
+
+import { GiTakeMyMoney, GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 
 const AmountContainer = ({ transactions }) => {
   const [balance, setBalance] = useState("0.00");
@@ -31,7 +32,9 @@ const AmountContainer = ({ transactions }) => {
     <>
       {/* balance amount */}
       <div className="balance-container">
-        <h2 className="balance-title">Your Balance :</h2>
+        <h2 className="balance-title">
+          Your Balance <GiTakeMyMoney /> :
+        </h2>
         <h3 className="balance amount-zero" id="balance">
           ₹{balance}
         </h3>
@@ -40,13 +43,17 @@ const AmountContainer = ({ transactions }) => {
       {/* income & expense */}
       <div className="output-container">
         <div className="income-container">
-          <h2 className="income">INCOME</h2>
+          <h2 className="income">
+            INCOME <GiReceiveMoney />{" "}
+          </h2>
           <h3 className="income-amt amount-zero" id="income-amt">
             ₹{income}
           </h3>
         </div>
         <div className="expense-container">
-          <h2 className="expense">EXPENSE</h2>
+          <h2 className="expense">
+            EXPENSE <GiPayMoney />{" "}
+          </h2>
           <h3 className="expense-amt amount-zero" id="expense-amt">
             ₹{expense}
           </h3>
