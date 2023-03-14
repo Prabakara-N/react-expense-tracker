@@ -200,7 +200,7 @@ li:hover .delete-btn {
 
 .history-title {
   text-align: center;
-  margin-top: -1.6rem;
+  margin-top: -1.7rem;
   margin-bottom: 0.5rem;
 }
 
@@ -443,12 +443,18 @@ input[type="number"] {
 
   .output-container {
     width: 95%;
-    margin: 0 auto 0.5rem;
+    margin: 0 auto 1.8rem;
   }
 
   .history-title {
     text-align: center;
-    margin-top: 0;
+    margin-top: -1.5rem;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .alert-transaction {
+    top: 23rem;
   }
 }
 
@@ -463,12 +469,15 @@ input[type="number"] {
 
   .output-container {
     width: 100%;
-    margin: 0 auto;
     padding: 0 16px;
     padding-top: 1.25rem;
   }
 
   .output-container h2 {
     font-size: 1.3rem;
+  }
+
+  .alert-transaction {
+    top: 19.5rem;
   }
 }

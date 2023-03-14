@@ -44,8 +44,7 @@ const FormControl = ({ showAlert }) => {
     const filteredItem = transactions.filter((item) => item.id !== id);
     setTransactions(filteredItem);
     showAlert({
-      show: true,
-      msg: "Transaction Deleted Successfully",
+      msg: "Transaction Deleted Successfully !",
       type: "transaction",
     });
   };
@@ -73,7 +72,6 @@ const FormControl = ({ showAlert }) => {
 
     if (!transactionName || !amount) {
       showAlert({
-        show: true,
         msg: "Please Enter A Transaction !",
         type: "transaction",
       });
@@ -91,7 +89,6 @@ const FormControl = ({ showAlert }) => {
       });
       setTransactions(editList);
       showAlert({
-        show: true,
         msg: "Transaction Updated Successfully !",
         type: "transaction",
       });
@@ -109,7 +106,6 @@ const FormControl = ({ showAlert }) => {
       setTransactionName("");
       setAmount("");
       showAlert({
-        show: true,
         msg: "Transaction Added Successfully !",
         type: "transaction",
       });

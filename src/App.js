@@ -9,7 +9,6 @@ import { FaCoins } from "react-icons/fa";
 const App = () => {
   // notification
   const [alertMsg, setAlertMsg] = useState({
-    show: true,
     type: "",
     msg: "",
   });
@@ -19,7 +18,7 @@ const App = () => {
       <h1 className="main-title">
         Expense Tracker <FaCoins />
       </h1>
-      {alertMsg.show && <Alert {...alertMsg} showAlert={setAlertMsg} />}
+      <Alert {...alertMsg} showAlert={setAlertMsg} />
       <FormControl showAlert={setAlertMsg} />
       <SocialMedia />
     </>

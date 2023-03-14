@@ -5,7 +5,6 @@ const Alert = ({ type, msg, showAlert }) => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       showAlert({
-        show: true,
         type: "",
         msg: "",
       });
